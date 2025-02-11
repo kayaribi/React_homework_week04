@@ -66,7 +66,7 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
         }
       });
     } catch (error) {
-      console.log("新增產品失敗");
+      console.log(`新增產品失敗${error.response.data.message}`);
       throw error;
     }
   };
@@ -84,7 +84,7 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
         }
       );
     } catch (error) {
-      console.log("編輯產品失敗");
+      console.log(`編輯產品失敗${error.response.data.message}`);
       throw error;
     }
   };
@@ -101,9 +101,9 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
     } catch (error) {
       // alert("更新產品失敗");
       if (modalMode === "create") {
-        alert("新增產品失敗");
+        alert(`新增產品失敗${error.response.data.message}`);
       } else {
-        alert("編輯產品失敗");
+        alert(`編輯產品失敗${error.response.data.message}`);
       }
     }
   };
@@ -121,7 +121,7 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
         imageUrl: uploadedImageUrl
       })
     } catch (error) {
-      alert("上傳圖片失敗");
+      alert(`上傳圖片失敗${error.response.data.message}`);
     }
   }
 
