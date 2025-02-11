@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -28,23 +28,26 @@ function LoginPage({ getProducts, setIsAuth }) {
     }
   };
 
-  // const checkUserLogin = async () => {
-  //   try {
-  //     await axios.post(`${BASE_URL}/v2/api/user/check`);
-  //     getProducts();
-  //     setIsAuth(true);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   const token = document.cookie.replace(
-  //     /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
-  //     "$1"
-  //   );
-  //   axios.defaults.headers.common["Authorization"] = token;
-  //   checkUserLogin();
-  // }, []);
+  const checkUserLogin = async () => {
+    try {
+      await axios.post(`${BASE_URL}/v2/api/user/check`);
+      // getProducts();
+      setIsAuth(true);
+    } catch (error) {
+      console.error(error);
+      setIsAuth(false);
+    }
+  };
+  useEffect(() => {
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = token;
+      checkUserLogin();
+    }
+  }, []);
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100">

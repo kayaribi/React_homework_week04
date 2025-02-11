@@ -5,7 +5,10 @@ function Pagination({ pageInfo, handlePageChang }) {
         <ul className="pagination">
           <li className={`page-item ${!pageInfo.has_pre && "disabled"}`}>
             <a
-              onClick={() => handlePageChang(pageInfo.current_page - 1)}
+              onClick={(event) => {
+                event.preventDefault();
+                handlePageChang(pageInfo.current_page - 1)
+              }}
               className="page-link"
               href="#"
             >
@@ -21,7 +24,10 @@ function Pagination({ pageInfo, handlePageChang }) {
                     }`}
                 >
                   <a
-                    onClick={() => handlePageChang(index + 1)}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      handlePageChang(index + 1)
+                    }}
                     className="page-link"
                     href="#"
                   >
@@ -33,7 +39,10 @@ function Pagination({ pageInfo, handlePageChang }) {
           )}
           <li className={`page-item ${!pageInfo.has_next && "disabled"}`}>
             <a
-              onClick={() => handlePageChang(pageInfo.current_page + 1)}
+              onClick={(event) => {
+                event.preventDefault();
+                handlePageChang(pageInfo.current_page + 1)
+              }}
               className="page-link"
               href="#"
             >

@@ -19,7 +19,7 @@ const defaultModalState = {
   imagesUrl: [""]
 };
 
-function ProductPage( ) {
+function ProductPage() {
   const [pageInfo, setPageInfo] = useState({});
   const [modalMode, setModalMode] = useState(null);
   const [products, setProducts] = useState([]);
@@ -40,13 +40,14 @@ function ProductPage( ) {
 
   useEffect(() => {
     getProducts()
-  },[])
+  }, [])
 
   const handleOpenProductModal = (mode, product) => {
     setModalMode(mode);
     switch (mode) {
       case "create":
-        setTempProduct(defaultModalState);
+        // setTempProduct(defaultModalState);
+        setTempProduct({ ...defaultModalState });
         break;
       case "edit":
         setTempProduct(product);
@@ -131,10 +132,10 @@ function ProductPage( ) {
             </table>
           </div>
         </div>
-          <Pagination pageInfo={pageInfo} handlePageChang={handlePageChang}/>
+        <Pagination pageInfo={pageInfo} handlePageChang={handlePageChang} />
       </div>
-        <ProductModal isOpen={isProductModalOpen} setIsOpen={setIsProductModalOpen} modalMode={modalMode} tempProduct={tempProduct} getProducts={getProducts} />
-        <DelProductModal tempProduct={tempProduct} getProducts={getProducts} isOpen={isDelProductModalOpen} setIsOpen={setIsDelProductModalOpen} />
+      <ProductModal isOpen={isProductModalOpen} setIsOpen={setIsProductModalOpen} modalMode={modalMode} tempProduct={tempProduct} getProducts={getProducts} />
+      <DelProductModal tempProduct={tempProduct} getProducts={getProducts} isOpen={isDelProductModalOpen} setIsOpen={setIsDelProductModalOpen} />
     </>
   )
 }

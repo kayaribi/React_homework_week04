@@ -7,13 +7,13 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }) {
   const productModalRef = useRef(null);
 
-  const [modalData, setModalData] = useState(tempProduct)
+  const [modalData, setModalData] = useState(tempProduct);
 
   useEffect(() => {
     setModalData({
-      ...tempProduct
-    })
-  }, [tempProduct])
+      ...tempProduct,
+    });
+  }, [tempProduct]);
 
   useEffect(() => {
     new Modal(productModalRef.current, { backdrop: false });
@@ -66,7 +66,8 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
         }
       });
     } catch (error) {
-      alert("新增產品失敗");
+      console.log("新增產品失敗");
+      throw error;
     }
   };
   const updateProduct = async () => {
@@ -83,18 +84,27 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
         }
       );
     } catch (error) {
-      alert("編輯產品失敗");
+      console.log("編輯產品失敗");
+      throw error;
     }
   };
 
   const handleUpdateProduct = async () => {
-    const apiCall = modalMode === "create" ? createProduct : updateProduct;
     try {
-      await apiCall();
+      if (modalMode === "create") {
+        await createProduct();
+      } else {
+        await updateProduct();
+      }
       getProducts();
       handleCloseProductModal();
     } catch (error) {
-      alert("更新產品失敗");
+      // alert("更新產品失敗");
+      if (modalMode === "create") {
+        alert("新增產品失敗");
+      } else {
+        alert("編輯產品失敗");
+      }
     }
   };
 
@@ -111,7 +121,7 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
         imageUrl: uploadedImageUrl
       })
     } catch (error) {
-
+      alert("上傳圖片失敗");
     }
   }
 
@@ -268,6 +278,7 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
                       原價
                     </label>
                     <input
+                      min="0"
                       value={modalData.origin_price}
                       onChange={handleModalInputChange}
                       name="origin_price"
@@ -282,6 +293,7 @@ function ProductModal({ modalMode, tempProduct, isOpen, setIsOpen, getProducts }
                       售價
                     </label>
                     <input
+                      min="0"
                       value={modalData.price}
                       onChange={handleModalInputChange}
                       name="price"
